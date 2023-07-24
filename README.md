@@ -1,5 +1,5 @@
 <h1 align="center">qbx-pefcl</h1>
-
+ ** ox_inventory Supported **
 **This is a compatibility resource that enables PEFCL to function properly with QBOX.**
 ## Installation Steps:
 
