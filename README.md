@@ -39,7 +39,7 @@
                  else
                      TriggerEvent('qbx-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
                  end
-                 TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
+                 TriggerClientEvent('qbx-hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
              end
 
              return true
@@ -82,7 +82,7 @@
                  else
                      TriggerEvent('qbx-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
                  end
-                 TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
+                 TriggerClientEvent('qbx-hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
                  if moneytype == 'bank' then
                      TriggerClientEvent('qbx-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
                  end
