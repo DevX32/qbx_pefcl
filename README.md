@@ -4,7 +4,7 @@
 ## Installation Steps:
 
 1. Download this repository and place it in the `resources` directory
-2. Add `ensure qbx-pefcl` to your `server.cfg` (Start this resource after `QBCore` and `PEFCL` have been started)
+2. Add `ensure qbx-pefcl` to your `server.cfg`
 3. Navigate to the `config.json` in `PEFCL` and change the following settings:
    - Under `frameworkIntegration`
      - `enabled`: `true`
