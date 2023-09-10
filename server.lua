@@ -2,18 +2,30 @@ local QBCore = exports["qbx-core"]:GetCoreObject()
 
 local function addCash(src, amount)
 	local Player = QBCore.Functions.GetPlayer(src)
+	if Config.ox_inventory then
 		exports.ox_inventory:addCash(src,amount)
+	else
+		Player.Functions.AddMoney("cash", amount)
+	end
 end
 
 local function removeCash(src, amount)
 	local Player = QBCore.Functions.GetPlayer(src)
-		exports.ox_inventory:addCash(src,amount)
+	if Config.ox_inventory then
+		exports.ox_inventory:removeCash(src,amount)
+	else
+		Player.Functions.RemoveMoney("cash", amount)
+	end
 end
 
 local function getCash(src)
 	local Player = QBCore.Functions.GetPlayer(src)
-		exports.ox_inventory:addCash(src,amount)
+	if Config.ox_inventory then
+		return exports.ox_inventory:getCash(src) or 0
+	else
+		return Player.PlayerData.money["cash"] or 0
 	end
+end
 
 local function loadPlayer(src, citizenid, name)
 	exports.pefcl:loadPlayer(src, {
@@ -56,30 +68,28 @@ local function UniqueAccounts(player)
 	end
 end
 
-local function getCards(source)
-	local Player = QBCore.Functions.GetPlayer(source)
-	local cards = Player.Functions.GetItemsByName('visa')
-	local retval = {}
-	if cards then 
-		for k, v in pairs(cards) do
-			retval[#retval+1] = {
-				id = v.info.id,
-				holder = v.info.holder,
-				number = v.info.number
-			}
-		end
-	end
-	return retval
+local function getCards(src)
+    local retval = {}
+    local cards = exports.ox_inventory:Search(src, 'slots', 'visa')
+
+    for _, v in pairs(cards) do
+        retval[#retval + 1] = {
+            id = v.metadata.id,
+            holder = v.metadata.holder,
+            number = v.metadata.number
+        }
+    end
+
+    return retval
 end
 
-local function giveCard(source, card)
-	local Player = QBCore.Functions.GetPlayer(source)
-	local info = {
-		id = card.id,
-		holder = card.holder,
-		number = card.number
-	}
-	Player.Functions.AddItem('visa', 1, nil, info)
+local function giveCard(src, card)
+    exports.ox_inventory:AddItem(src, 'visa', 1, {
+        id = card.id,
+        holder = card.holder,
+        number = card.number,
+        description = ('Card Number: %s'):format(card.number)
+    })
 end
 
 local function getBank(source)
