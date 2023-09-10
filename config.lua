@@ -1,6 +1,4 @@
-Config = {
-    ox_inventory = true -- Enable if you're using ox_inventory
-}
+Config = {}
 Config.BusinessAccounts = {
     ['police'] = { -- Job Name
         AccountName = 'Los Santos Police', -- Display name for bank account
