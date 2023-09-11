@@ -7,15 +7,15 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     end)
 end)
 
-RegisterNetEvent("QBCore:Client:OnPlayerUnload", function()
-	TriggerServerEvent("qbx-pefcl:server:UnloadPlayer")
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+	TriggerServerEvent('qbx-pefcl:server:UnloadPlayer')
 end)
 
-RegisterNetEvent("pefcl:newDefaultAccountBalance", function(balance)
-	TriggerServerEvent("qbx-pefcl:server:SyncMoney")
+RegisterNetEvent('pefcl:newDefaultAccountBalance', function(balance)
+	TriggerServerEvent('qbx-pefcl:server:SyncMoney')
 end)
 
-RegisterNetEvent("QBCore:Client:OnJobUpdate", function(newJob)
-	TriggerServerEvent("qbx-pefcl:server:OnJobUpdate", currentJob)
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(newJob)
+	TriggerServerEvent('qbx-pefcl:server:OnJobUpdate', currentJob)
 	currentJob = newJob
 end)
