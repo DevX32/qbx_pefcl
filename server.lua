@@ -1,11 +1,11 @@
-local QBCore = exports["qbx-core"]:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 
 local function addCash(src, amount)
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Config.ox_inventory then
 		exports.ox_inventory:addCash(src,amount)
 	else
-		Player.Functions.AddMoney("cash", amount)
+		Player.Functions.AddMoney('cash', amount)
 	end
 end
 
@@ -14,7 +14,7 @@ local function removeCash(src, amount)
 	if Config.ox_inventory then
 		exports.ox_inventory:removeCash(src,amount)
 	else
-		Player.Functions.RemoveMoney("cash", amount)
+		Player.Functions.RemoveMoney('cash', amount)
 	end
 end
 
@@ -23,7 +23,7 @@ local function getCash(src)
 	if Config.ox_inventory then
 		return exports.ox_inventory:getCash(src) or 0
 	else
-		return Player.PlayerData.money["cash"] or 0
+		return Player.PlayerData.money['cash'] or 0
 	end
 end
 
@@ -94,68 +94,68 @@ end
 
 local function getBank(source)
 	local Player = QBCore.Functions.GetPlayer(source)
-	return Player.PlayerData.money["bank"] or 0
+	return Player.PlayerData.money['bank'] or 0
 end
 
-exports("getBank", getBank)
-exports("addCash", addCash)
-exports("removeCash", removeCash)
-exports("getCash", getCash)
-exports("giveCard", giveCard)
-exports("getCards", getCards)
+exports('getBank', getBank)
+exports('addCash', addCash)
+exports('removeCash', removeCash)
+exports('getCash', getCash)
+exports('giveCard', giveCard)
+exports('getCards', getCards)
 
-AddEventHandler("QBCore:Server:OnMoneyChange", function(playerSrc, moneyType, amount, action, reason)
-	if moneyType ~= "bank" then return end
-	if action == "add" then
+AddEventHandler('QBCore:Server:OnMoneyChange', function(playerSrc, moneyType, amount, action, reason)
+	if moneyType ~= 'bank' then return end
+	if action == 'add' then
 		exports.pefcl:addBankBalance(playerSrc, { amount = amount, message = reason })	
 	end
 
-	if action == "remove" then
+	if action == 'remove' then
 		exports.pefcl:removeBankBalance(playerSrc, { amount = amount, message = reason })	
 	end
 
-	if action == "set" then
+	if action == 'set' then
 		exports.pefcl:setBankBalance(playerSrc, { amount = amount, message = reason })	
 	end	
 end)
 
-AddEventHandler("QBCore:Server:PlayerLoaded", function(player)
+AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
 	if not player then
 		return
 	end
 	local citizenid = player.PlayerData.citizenid
 	local charInfo = player.PlayerData.charinfo
 	local playerSrc = player.PlayerData.source
-	loadPlayer(playerSrc, citizenid, charInfo.firstname .. " " .. charInfo.lastname)
+	loadPlayer(playerSrc, citizenid, charInfo.firstname .. ' ' .. charInfo.lastname)
 	UniqueAccounts(player)				
 	player.Functions.SyncMoney()
 end)
 
-RegisterNetEvent("qbx-pefcl:server:UnloadPlayer", function()
+RegisterNetEvent('qbx-pefcl:server:UnloadPlayer', function()
 	exports.pefcl:unloadPlayer(source)
 end)
 
-RegisterNetEvent("qbx-pefcl:server:SyncMoney", function()
+RegisterNetEvent('qbx-pefcl:server:SyncMoney', function()
 	local player = QBCore.Functions.GetPlayer(source)
 	player.Functions.SyncMoney()
 end)
 
-RegisterNetEvent("qbx-pefcl:server:OnJobUpdate", function(oldJob)
+RegisterNetEvent('qbx-pefcl:server:OnJobUpdate', function(oldJob)
 	local player = QBCore.Functions.GetPlayer(source)
 	UniqueAccounts(player)
 end)
 
 local currentResName = GetCurrentResourceName()
 
-AddEventHandler("onServerResourceStart", function(resName)
+AddEventHandler('onServerResourceStart', function(resName)
 	if resName ~= currentResName then return end
 	local players = QBCore.Functions.GetQBPlayers()
 	if not players or players == nil then
-		print("Error loading players, if no players on the server ignore this")
+		print('Error loading players, if no players on the server ignore this')
 		return
 	end
 	for _, v in pairs(players) do
-		loadPlayer(v.PlayerData.source, v.PlayerData.citizenid, v.PlayerData.charinfo.firstname .. " " .. v.PlayerData.charinfo.lastname)
+		loadPlayer(v.PlayerData.source, v.PlayerData.citizenid, v.PlayerData.charinfo.firstname .. ' ' .. v.PlayerData.charinfo.lastname)
 		UniqueAccounts(v)
 		v.Functions.SyncMoney()
 	end
