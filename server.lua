@@ -1,7 +1,5 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
-
 local function addCash(src, amount)
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = exports.qbx_core:GetPlayer(src)
 	if Config.ox_inventory then
 		exports.ox_inventory:addCash(src,amount)
 	else
@@ -10,7 +8,7 @@ local function addCash(src, amount)
 end
 
 local function removeCash(src, amount)
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = exports.qbx_core:GetPlayer(src)
 	if Config.ox_inventory then
 		exports.ox_inventory:removeCash(src,amount)
 	else
@@ -93,7 +91,7 @@ local function giveCard(src, card)
 end
 
 local function getBank(source)
-	local Player = QBCore.Functions.GetPlayer(source)
+	local Player = exports.qbx_core:GetPlayer(source)
 	return Player.PlayerData.money['bank'] or 0
 end
 
@@ -131,17 +129,17 @@ AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
 	player.Functions.SyncMoney()
 end)
 
-RegisterNetEvent('qbx-pefcl:server:UnloadPlayer', function()
+RegisterNetEvent('qbx_pefcl:server:UnloadPlayer', function()
 	exports.pefcl:unloadPlayer(source)
 end)
 
-RegisterNetEvent('qbx-pefcl:server:SyncMoney', function()
-	local player = QBCore.Functions.GetPlayer(source)
+RegisterNetEvent('qbx_pefcl:server:SyncMoney', function()
+	local player = exports.qbx_core:GetPlayer(source)
 	player.Functions.SyncMoney()
 end)
 
-RegisterNetEvent('qbx-pefcl:server:OnJobUpdate', function(oldJob)
-	local player = QBCore.Functions.GetPlayer(source)
+RegisterNetEvent('qbx_pefcl:server:OnJobUpdate', function(oldJob)
+	local player = exports.qbx_core:GetPlayer(source)
 	UniqueAccounts(player)
 end)
 
@@ -149,7 +147,7 @@ local currentResName = GetCurrentResourceName()
 
 AddEventHandler('onServerResourceStart', function(resName)
 	if resName ~= currentResName then return end
-	local players = QBCore.Functions.GetQBPlayers()
+	local players = exports.qbx_core:GetQBPlayers()
 	if not players or players == nil then
 		print('Error loading players, if no players on the server ignore this')
 		return
