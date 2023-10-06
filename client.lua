@@ -1,21 +1,20 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local currentJob = {}
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    QBCore.Functions.GetPlayerData(function(PlayerData) 
+   QBX.PlayerData(function(PlayerData) 
 		currentJob = PlayerData.job
     end)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-	TriggerServerEvent('qbx-pefcl:server:UnloadPlayer')
+	TriggerServerEvent('qbx_pefcl:server:UnloadPlayer')
 end)
 
 RegisterNetEvent('pefcl:newDefaultAccountBalance', function(balance)
-	TriggerServerEvent('qbx-pefcl:server:SyncMoney')
+	TriggerServerEvent('qbx_pefcl:server:SyncMoney')
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(newJob)
-	TriggerServerEvent('qbx-pefcl:server:OnJobUpdate', currentJob)
+	TriggerServerEvent('qbx_pefcl:server:OnJobUpdate', currentJob)
 	currentJob = newJob
 end)
