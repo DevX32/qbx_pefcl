@@ -10,7 +10,7 @@
      - `enabled`: `true`
      - `resource`: `qbx-pefcl`
    - Under `target`
-     - `type`: `"ox_target"`
+     - `type`: `"qtarget"`
      - `enabled`: `true`
 4. Navigate to `qbx-core\server\player.lua` and replace those functions:
 
