@@ -47,8 +47,7 @@
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
         end
         return true
-  end
-     ```
+  end```
 
    - self.Functions.RemoveMoney =>
 
