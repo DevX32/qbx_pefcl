@@ -1,22 +1,26 @@
-<h1 align="center">qbx-pefcl</h1>
+<h2 align="center">qbx_pefcl</h2>
 
-**This is a compatibility resource that enables PEFCL to function properly with QBOX.**
+This compatibility resource enables PEFCL to function properly with QBOX.
+
 ## Installation Steps:
 
-1. Download this repository and place it in the `resources` directory
-2. Add `ensure qbx-pefcl` to your `server.cfg`
-3. Navigate to the `config.json` in `PEFCL` and change the following settings:
-   - Under `frameworkIntegration`
-     - `enabled`: `true`
-     - `resource`: `qbx-pefcl`
-   - Under `target`
-     - `type`: `"qtarget"`
-     - `enabled`: `true`
-4. Navigate to `qbx-core\server\player.lua` and replace those functions:
+1. Download this repository and place it in the `resources` directory.
+2. Add `ensure qbx_pefcl` to your `server.cfg` before pefcl.
+3. Navigate to the `config.json` in `PEFCL` and make the following changes:
 
-   - self.Functions.AddMoney =>
+    - Under `frameworkIntegration`:
+        - `enabled`: `true`
+        - `resource`: `qbx_pefcl`
 
-     ```lua
+    - Under `target`:
+        - `type`: `"qtarget"`
+        - `enabled`: `true`
+
+4. Navigate to `qbx_core\server\player.lua` and replace the following functions:
+
+    - `self.Functions.AddMoney`:
+
+    ```lua
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
@@ -47,11 +51,12 @@
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
         end
         return true
-  end```
+    end
+    ```
 
-   - self.Functions.RemoveMoney =>
+    - `self.Functions.RemoveMoney`:
 
-     ```lua
+    ```lua
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
@@ -97,12 +102,12 @@
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove", reason)
         end
         return true
-      end
-     ```
+    end
+    ```
 
-   - self.Functions.SetMoney =>
+    - `self.Functions.SetMoney`:
 
-     ```lua
+    ```lua
     function self.Functions.SetMoney(moneytype, amount, reason)
         moneytype = moneytype:lower()
         amount = tonumber(amount)
@@ -131,23 +136,24 @@
         end
         return true
     end
-     ```
+    ```
 
-   - self.Functions.GetMoney =>
+    - `self.Functions.GetMoney`:
 
-     ```lua
-         function self.Functions.GetMoney(moneytype)
-             if not moneytype then return false end
-             moneytype = moneytype:lower()
-             if moneytype == 'bank' then
-                 self.PlayerData.money[moneytype] = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data or 0
-                 return exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data
-             end
-             return self.PlayerData.money[moneytype]
-         end
-     ```
+    ```lua
+    function self.Functions.GetMoney(moneytype)
+        if not moneytype then return false end
+        moneytype = moneytype:lower()
+        if moneytype == 'bank' then
+            self.PlayerData.money[moneytype] = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data or 0
+            return exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data
+        end
+        return self.PlayerData.money[moneytype]
+    end
+    ```
 
-5. Navigate to `qbx-core\server\player.lua` and add the following function:
+5. Additionally, add the following function to `qbx_core\server\player.lua`:
+
     ```lua
     function self.Functions.SyncMoney() 
         local money = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data
@@ -159,3 +165,5 @@
         end
     end
     ```
+
+Feel free to replace the comments with the actual code modifications for better clarity. If you have any questions or need further assistance, please let me know!
