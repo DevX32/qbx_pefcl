@@ -17,7 +17,7 @@ local function removeCash(src, amount)
 end
 
 local function getCash(src)
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = exports.qbx_core:GetPlayer(src)
 	if Config.ox_inventory then
 		return exports.ox_inventory:getCash(src) or 0
 	else
