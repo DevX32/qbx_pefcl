@@ -1,28 +1,13 @@
 local function addCash(src, amount)
-	local Player = exports.qbx_core:GetPlayer(src)
-	if Config.ox_inventory then
-		exports.ox_inventory:addCash(src,amount)
-	else
-		Player.Functions.AddMoney('cash', amount)
-	end
+        exports.ox_inventory:addCash(src,amount)
 end
 
 local function removeCash(src, amount)
-	local Player = exports.qbx_core:GetPlayer(src)
-	if Config.ox_inventory then
-		exports.ox_inventory:removeCash(src,amount)
-	else
-		Player.Functions.RemoveMoney('cash', amount)
-	end
+	exports.ox_inventory:removeCash(src,amount)
 end
 
 local function getCash(src)
-	local Player = exports.qbx_core:GetPlayer(src)
-	if Config.ox_inventory then
-		return exports.ox_inventory:getCash(src) or 0
-	else
-		return Player.PlayerData.money['cash'] or 0
-	end
+	return exports.ox_inventory:getCash(src) or 0
 end
 
 local function loadPlayer(src, citizenid, name)
