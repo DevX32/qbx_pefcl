@@ -158,7 +158,7 @@ This compatibility resource enables PEFCL to function properly with QBOX.
     function self.Functions.SyncMoney() 
         local money = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data
         if money then
-            self.PlayerData.money['bank'] = money
+            self.PlayerData.money.bank = money
         end
         if not self.Offline then
             self.Functions.UpdatePlayerData()
