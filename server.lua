@@ -121,7 +121,7 @@ end
 
 local function getBank(source)
 	local Player = exports.qbx_core:GetPlayer(source)
-	return Player.PlayerData.money['bank'] or 0
+	return Player.PlayerData.money.bank or 0
 end
 
 exports('getBank', getBank)
