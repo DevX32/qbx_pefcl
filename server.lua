@@ -51,6 +51,50 @@ local function UniqueAccounts(player)
 	end
 end
 
+lib.AddCommand('bill', {
+	help = 'Bill A Player',
+	params = {
+		{ name = 'id',      help = 'Player ID' },
+		{ name = 'amount',  help = 'Bill Amount' },
+		{ name = 'message', help = 'Message' }
+	},
+}, function(source, args)
+	local biller = exports.qbx_core:GetPlayer(source)
+	local billed = exports.qbx_core:GetPlayer(tonumber(args[1]))
+	local billerJobName = biller.PlayerData.job.name
+	local amount = math.ceil(tonumber(args[2]))
+	local message = args[3]
+
+	if not Config.BusinessAccounts[billerJobName] then
+		TriggerClientEvent('ox_lib:notify', source, 'No Access', 'error')
+	end
+
+	if not billed then
+		TriggerClientEvent('ox_lib:Notify', source, 'Player Not Online', 'error')
+	end
+
+	if biller.PlayerData.citizenid == billed.PlayerData.citizenid then
+		TriggerClientEvent('ox_lib:notify', source, 'You Cannot Bill Yourself', 'error')
+	end
+
+	if not amount or amount <= 0 then
+		TriggerClientEvent('ox_lib:notify', source, 'Must Be A Valid Amount Above 0', 'error')
+	end
+
+	exports.pefcl:createInvoice(-1, {
+		to = billed.PlayerData.charinfo.firstname .. billed.PlayerData.charinfo.lastname,
+		toIdentifier = billed.PlayerData.citizenid,
+		from = tostring(Config.BusinessAccounts[billerJobName].AccountName),
+		fromIdentifier = biller.PlayerData.citizenid,
+		amount = amount,
+		message = message,
+		receiverAccountIdentifier = billerJobName
+	})
+
+	TriggerClientEvent('ox_lib:notify', source, 'Invoice Successfully Sent', 'success')
+	TriggerClientEvent('ox_lib:notify', billed.PlayerData.source, 'New Invoice Received')
+end)
+
 local function getCards(src)
     local retval = {}
     local cards = exports.ox_inventory:Search(src, 'slots', 'visa')
