@@ -5,14 +5,13 @@ description 'Bridge for pefcl(QBOX)'
 author 'DevX32'
 shared_scripts {
     '@ox_lib/init.lua',
-    '@qbx_core/import.lua',
-}
-modules {
-    'qbx_core:playerdata',
-    'qbx_core:utils'
+    '@qbx_core/modules/utils.lua',
 }
 
-client_script 'client.lua'
+client_scripts {
+  '@qbx_core/modules/playerdata.lua',
+  'client.lua'
+}
 
 server_scripts { 
     'server.lua',
