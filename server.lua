@@ -220,6 +220,18 @@ local function RemoveMoney(account, amount, reason)
 end
 exports('RemoveMoney', RemoveMoney)
 
+AddEventHandler(('__cfx_export_qbx_management_%s'):format('AddMoney'), function(setCB)
+    setCB(AddMoney)
+end)
+
+AddEventHandler(('__cfx_export_qbx_management_%s'):format('RemoveMoney'), function(setCB)
+    setCB(RemoveMoney)
+end)
+
+AddEventHandler(('__cfx_export_qbx_management_%s'):format('GetAccount'), function(setCB)
+    setCB(GetAccount)
+end)
+
 exports('getBank', getBank)
 exports('addCash', addCash)
 exports('removeCash', removeCash)
