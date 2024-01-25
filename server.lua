@@ -104,7 +104,7 @@ local function UniqueAccounts(player)
 	end
 end
 
-lib.AddCommand('bill', {
+lib.addCommand('bill', {
 	help = 'Bill A Player',
 	params = {
 		{ name = 'id',      help = 'Player ID' },
