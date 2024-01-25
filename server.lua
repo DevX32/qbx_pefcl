@@ -1,4 +1,3 @@
-local Config = require 'config.pefcl'
 local function addCash(src, amount)
         exports.ox_inventory:addCash(src,amount)
 end
