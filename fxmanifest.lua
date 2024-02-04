@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
-description 'Bridge for pefcl(QBOX)'
+description 'Bridge For Pefcl(QBOX)'
 author 'DevX32'
 
 shared_scripts {
