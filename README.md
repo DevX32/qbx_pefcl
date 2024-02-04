@@ -7,11 +7,11 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
 2. Add `ensure qbx_pefcl` To Your `server.cfg` Before Pefcl.
 3. Navigate To The `config.json` In `PEFCL` And Make The Following Changes:
 
-    - Under `frameworkIntegration`:
+    - Under `Framework Integration`:
         - `enabled`: `true`
         - `resource`: `qbx_pefcl`
 
-    - Under `target`:
+    - Under `Target`:
         - `type`: `"qtarget"`
         - `enabled`: `true`
 
