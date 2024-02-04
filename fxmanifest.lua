@@ -6,7 +6,7 @@ author 'DevX32'
 
 shared_scripts {
     '@ox_lib/init.lua',
-    '@qbx_core/modules/utils.lua',
+    '@qbx_core/modules/lib.lua',
 }
 
 client_scripts {
