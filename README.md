@@ -1,12 +1,11 @@
 <h2 align="center">qbx_pefcl</h2>
-
-This compatibility resource enables PEFCL to function properly with QBOX.
+This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
 
 ## Installation Steps:
 
-1. Download this repository and place it in the `resources` directory.
-2. Add `ensure qbx_pefcl` to your `server.cfg` before pefcl.
-3. Navigate to the `config.json` in `PEFCL` and make the following changes:
+1. Download This Repository And Place It In The `resources` Directory.
+2. Add `ensure qbx_pefcl` To Your `server.cfg` Before Pefcl.
+3. Navigate To The `config.json` In `PEFCL` And Make The Following Changes:
 
     - Under `frameworkIntegration`:
         - `enabled`: `true`
@@ -16,7 +15,7 @@ This compatibility resource enables PEFCL to function properly with QBOX.
         - `type`: `"qtarget"`
         - `enabled`: `true`
 
-4. Navigate to `qbx_core\server\player.lua` and replace the following functions:
+4. Navigate To `qbx_core\server\player.lua` And Replace The Following Functions:
 
     - `self.Functions.AddMoney`:
 
@@ -152,7 +151,7 @@ This compatibility resource enables PEFCL to function properly with QBOX.
     end
     ```
 
-5. Additionally, add the following function to `qbx_core\server\player.lua`:
+5. Additionally, Add The Following Function To `qbx_core\server\player.lua`:
 
     ```lua
     function self.Functions.SyncMoney() 
@@ -165,7 +164,7 @@ This compatibility resource enables PEFCL to function properly with QBOX.
         end
     end
     ```
-6. Change Renewed Banking Exports If You Have Old qbx_managemnt without renewed exports, `qbx_core\config\server.lua`:
+6. Change Renewed Banking Exports If You Have Old qbx_management Without Renewed Exports, `qbx_core\config\server.lua`:
    ```lua
     getSocietyAccount = function(accountName)
         return exports.qbx_management:GetAccount(accountName)
@@ -175,5 +174,6 @@ This compatibility resource enables PEFCL to function properly with QBOX.
         return exports.qbx_management:RemoveMoney(accountName, payment)
     end
    ```
-
+- Update Event Handlers In `qbx_pefcl/server.lua` To Adapt To Banking Exports Changes:
+- - - - - - - - - - - -
 Feel free to replace the comments with the actual code modifications for better clarity. If you have any questions or need further assistance, please let me know!
