@@ -165,7 +165,7 @@ This compatibility resource enables PEFCL to function properly with QBOX.
         end
     end
     ```
-6. Change Renewed Banking Exports, `qbx_core\config\server.lua`:
+6. Change Renewed Banking Exports If You Have Old qbx_managemnt without renewed exports, `qbx_core\config\server.lua`:
    ```lua
     getSocietyAccount = function(accountName)
         return exports.qbx_management:GetAccount(accountName)
