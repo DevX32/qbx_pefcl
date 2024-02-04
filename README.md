@@ -165,5 +165,15 @@ This compatibility resource enables PEFCL to function properly with QBOX.
         end
     end
     ```
+6. Change Renewed Banking Exports, `qbx_core\config\server.lua`:
+   ```lua
+    getSocietyAccount = function(accountName)
+        return exports.qbx_management:GetAccount(accountName)
+    end,
+
+    removeSocietyMoney = function(accountName, payment)
+        return exports.qbx_management:RemoveMoney(accountName, payment)
+    end
+   ```
 
 Feel free to replace the comments with the actual code modifications for better clarity. If you have any questions or need further assistance, please let me know!
