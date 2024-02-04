@@ -46,7 +46,7 @@ This compatibility resource enables PEFCL to function properly with QBOX.
                 tags = tags,
                 message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
             })
-            TriggerClientEvent('qbx-hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
+            TriggerClientEvent('qbx_hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
         end
@@ -94,9 +94,9 @@ This compatibility resource enables PEFCL to function properly with QBOX.
                 tags = tags,
                 message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
             })
-            TriggerClientEvent('qbx-hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
+            TriggerClientEvent('qbx_hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
             if moneytype == 'bank' then
-                TriggerClientEvent('qbx-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
+                TriggerClientEvent('qbx_phone:client:RemoveBankMoney', self.PlayerData.source, amount)
             end
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove", reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove", reason)
