@@ -22,9 +22,8 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
     ```lua
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        moneytype = moneytype:lower()
-        amount = tonumber(amount)
-        if amount < 0 then return end
+        amount = tonumber(amount) --[[@as number]]
+        if amount < 0 then return false end
         if moneytype == 'bank' then
             local data = {}
             data.amount = amount
@@ -58,9 +57,8 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
     ```lua
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        moneytype = moneytype:lower()
-        amount = tonumber(amount)
-        if amount < 0 then return end
+        amount = tonumber(amount) --[[@as number]]
+        if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(config.money.dontAllowMinus) do
             if mtype == moneytype then
@@ -108,9 +106,8 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
 
     ```lua
     function self.Functions.SetMoney(moneytype, amount, reason)
-        moneytype = moneytype:lower()
-        amount = tonumber(amount)
-        if amount < 0 then return false end
+        reason = reason or 'unknown'
+        amount = tonumber(amount) --[[@as number]]
         if moneytype == 'bank' then
             local data = {}
             data.amount = amount
@@ -118,6 +115,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
             self.PlayerData.money[moneytype] = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data or 0
         else
             if not self.PlayerData.money[moneytype] then return false end
+            local difference = amount - self.PlayerData.money[moneytype]
             self.PlayerData.money[moneytype] = amount
         end
 
@@ -130,6 +128,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
                 color = 'green',
                 message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
             })
+            TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
         end
