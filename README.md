@@ -22,6 +22,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
     ```lua
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
+        moneytype = moneytype:lower()
         amount = qbx.math.round(tonumber(amount)) --[[@as number]]
         if amount < 0 then return false end
         if moneytype == 'bank' then
@@ -57,6 +58,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
     ```lua
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
+        moneytype = moneytype:lower()
         amount = qbx.math.round(tonumber(amount)) --[[@as number]]
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
@@ -107,6 +109,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
     ```lua
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
+        moneytype = moneytype:lower()
         amount = qbx.math.round(tonumber(amount)) --[[@as number]]
         if moneytype == 'bank' then
             local data = {}
@@ -141,6 +144,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
     ```lua
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
+        moneytype = moneytype:lower()
         if moneytype == 'bank' then
             self.PlayerData.money[moneytype] = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data or 0
             return exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data
