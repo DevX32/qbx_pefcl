@@ -111,6 +111,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
         amount = qbx.math.round(tonumber(amount)) --[[@as number]]
+        if amount < 0 then return false end
         if moneytype == 'bank' then
             local data = {}
             data.amount = amount
