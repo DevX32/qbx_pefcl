@@ -15,6 +15,7 @@ client_scripts {
 }
 
 server_scripts {
+    'bridge/*.lua',
     'server/*.lua',
 }
 
