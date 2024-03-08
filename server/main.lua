@@ -118,23 +118,18 @@ lib.addCommand('bill', {
 	local billerJobName = biller.PlayerData.job.name
 	local amount = math.ceil(tonumber(args[2]))
 	local message = args[3]
-
 	if not Config.BusinessAccounts[billerJobName] then
 		TriggerClientEvent('ox_lib:notify', source, 'No Access', 'error')
 	end
-
 	if not billed then
 		TriggerClientEvent('ox_lib:Notify', source, 'Player Not Online', 'error')
 	end
-
 	if biller.PlayerData.citizenid == billed.PlayerData.citizenid then
 		TriggerClientEvent('ox_lib:notify', source, 'You Cannot Bill Yourself', 'error')
 	end
-
 	if not amount or amount <= 0 then
 		TriggerClientEvent('ox_lib:notify', source, 'Must Be A Valid Amount Above 0', 'error')
 	end
-
 	exports.pefcl:createInvoice(-1, {
 		to = billed.PlayerData.charinfo.firstname .. billed.PlayerData.charinfo.lastname,
 		toIdentifier = billed.PlayerData.citizenid,
@@ -144,7 +139,6 @@ lib.addCommand('bill', {
 		message = message,
 		receiverAccountIdentifier = billerJobName
 	})
-
 	TriggerClientEvent('ox_lib:notify', source, 'Invoice Successfully Sent', 'success')
 	TriggerClientEvent('ox_lib:notify', billed.PlayerData.source, 'New Invoice Received')
 end)
@@ -152,7 +146,6 @@ end)
 local function getCards(src)
 	local retval = {}
 	local cards = exports.ox_inventory:Search(src, 'slots', 'visa')
-
 	for _, v in pairs(cards) do
 		retval[#retval + 1] = {
 			id = v.metadata.id,
@@ -160,7 +153,6 @@ local function getCards(src)
 			number = v.metadata.number
 		}
 	end
-
 	return retval
 end
 
@@ -232,7 +224,6 @@ local eventHandlers = {
 	{'__cfx_export_Renewed-Banking_removeAccountMoney', RemoveMoney},
 	{'__cfx_export_Renewed-Banking_getAccountMoney', GetAccount}
 }
-
 for _, eventHandler in ipairs(eventHandlers) do
 	local eventName, callback = table.unpack(eventHandler)
 	AddEventHandler(eventName, function(setCB)
@@ -252,11 +243,9 @@ AddEventHandler('QBCore:Server:OnMoneyChange', function(playerSrc, moneyType, am
 	if action == 'add' then
 		exports.pefcl:addBankBalance(playerSrc, { amount = amount, message = reason })
 	end
-
 	if action == 'remove' then
 		exports.pefcl:removeBankBalance(playerSrc, { amount = amount, message = reason })
 	end
-
 	if action == 'set' then
 		exports.pefcl:setBankBalance(playerSrc, { amount = amount, message = reason })
 	end
@@ -287,13 +276,11 @@ RegisterNetEvent('qbx_pefcl:server:OnJobUpdate', function(oldJob)
 	SyncMoney(player)
 end)
 
-local currentResName = GetCurrentResourceName()
-
-AddEventHandler('onServerResourceStart', function(resName)
-	if resName ~= currentResName then return end
+AddEventHandler('onServerResourceStart', function(resourceName)
+	if resourceName ~= GetCurrentResourceName() then return end
 	local players = exports.qbx_core:GetQBPlayers()
 	if not players or players == nil then
-		print('Error loading players, if no players on the server ignore this')
+		print("Error: Unable to load player data. If there are no players currently on the server, you may ignore this message.")
 		return
 	end
 	for _, v in pairs(players) do
