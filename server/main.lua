@@ -221,29 +221,21 @@ local function RemoveMoney(account, amount, reason)
 end
 exports('RemoveMoney', RemoveMoney)
 
-AddEventHandler(('__cfx_export_qbx_management_%s'):format('AddMoney'), function(setCB)
-	setCB(AddMoney)
-end)
+local eventHandlers = {
+    {'__cfx_export_qbx_management_AddMoney', AddMoney},
+    {'__cfx_export_qbx_management_RemoveMoney', RemoveMoney},
+    {'__cfx_export_qbx_management_GetAccount', GetAccount},
+    {'__cfx_export_Renewed-Banking_addAccountMoney', AddMoney},
+    {'__cfx_export_Renewed-Banking_removeAccountMoney', RemoveMoney},
+    {'__cfx_export_Renewed-Banking_getAccountMoney', GetAccount}
+}
 
-AddEventHandler(('__cfx_export_qbx_management_%s'):format('RemoveMoney'), function(setCB)
-	setCB(RemoveMoney)
-end)
-
-AddEventHandler(('__cfx_export_qbx_management_%s'):format('GetAccount'), function(setCB)
-	setCB(GetAccount)
-end)
-
-AddEventHandler(('__cfx_export_Renewed-Banking_%s'):format('addAccountMoney'), function(setCB)
-	setCB(AddMoney)
-end)
-
-AddEventHandler(('__cfx_export_Renewed-Banking_%s'):format('removeAccountMoney'), function(setCB)
-	setCB(RemoveMoney)
-end)
-
-AddEventHandler(('__cfx_export_Renewed-Banking_%s'):format('getAccountMoney'), function(setCB)
-	setCB(GetAccount)
-end)
+for _, eventHandler in ipairs(eventHandlers) do
+    local eventName, callback = table.unpack(eventHandler)
+    AddEventHandler(eventName, function(setCB)
+        setCB(callback)
+    end)
+end
 
 exports('getBank', getBank)
 exports('addCash', addCash)
