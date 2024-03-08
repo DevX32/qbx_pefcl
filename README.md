@@ -15,8 +15,8 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
         - `type`: `"qtarget"`
         - `enabled`: `true`
 
-- QBOX </> [Join Discord](https://discord.gg/qbox) 
-- DevX32 </> [Join Discord](https://discord.gg/pwZztPt3cs)
+- `QBOX` [Join Discord](https://discord.gg/qbox)
+- `DevX32` [Join Discord](https://discord.gg/pwZztPt3cs)
 
 - - - - - - - - - - - -
 Feel free to replace the comments with the actual code modifications for better clarity. If you have any questions or need further assistance, please let me know!
