@@ -222,22 +222,22 @@ end
 exports('RemoveMoney', RemoveMoney)
 
 local eventHandlers = {
-    {'__cfx_export_qbx_management_AddMoney', AddMoney},
-    {'__cfx_export_qbx_management_RemoveMoney', RemoveMoney},
-    {'__cfx_export_qbx_management_GetAccount', GetAccount},
+	{'__cfx_export_qbx_management_AddMoney', AddMoney},
+	{'__cfx_export_qbx_management_RemoveMoney', RemoveMoney},
+	{'__cfx_export_qbx_management_GetAccount', GetAccount},
 	{'__cfx_export_qb_management_AddMoney', AddMoney},
-    {'__cfx_export_qb_management_RemoveMoney', RemoveMoney},
-    {'__cfx_export_qb_management_GetAccount', GetAccount},
-    {'__cfx_export_Renewed-Banking_addAccountMoney', AddMoney},
-    {'__cfx_export_Renewed-Banking_removeAccountMoney', RemoveMoney},
-    {'__cfx_export_Renewed-Banking_getAccountMoney', GetAccount}
+	{'__cfx_export_qb_management_RemoveMoney', RemoveMoney},
+	{'__cfx_export_qb_management_GetAccount', GetAccount},
+	{'__cfx_export_Renewed-Banking_addAccountMoney', AddMoney},
+	{'__cfx_export_Renewed-Banking_removeAccountMoney', RemoveMoney},
+	{'__cfx_export_Renewed-Banking_getAccountMoney', GetAccount}
 }
 
 for _, eventHandler in ipairs(eventHandlers) do
-    local eventName, callback = table.unpack(eventHandler)
-    AddEventHandler(eventName, function(setCB)
-        setCB(callback)
-    end)
+	local eventName, callback = table.unpack(eventHandler)
+	AddEventHandler(eventName, function(setCB)
+		setCB(callback)
+	end)
 end
 
 exports('getBank', getBank)
@@ -263,42 +263,42 @@ AddEventHandler('QBCore:Server:OnMoneyChange', function(playerSrc, moneyType, am
 end)
 
 AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
-    if not player then return end
-    local citizenid = player.PlayerData.citizenid
-    local charInfo = player.PlayerData.charinfo
-    local playerSrc = player.PlayerData.source
-    loadPlayer(playerSrc, citizenid, charInfo.firstname .. ' ' .. charInfo.lastname)
-    UniqueAccounts(player)
-    SyncMoney(player)
+	if not player then return end
+	local citizenid = player.PlayerData.citizenid
+	local charInfo = player.PlayerData.charinfo
+	local playerSrc = player.PlayerData.source
+	loadPlayer(playerSrc, citizenid, charInfo.firstname .. ' ' .. charInfo.lastname)
+	UniqueAccounts(player)
+	SyncMoney(player)
 end)
 
 RegisterNetEvent('qbx_pefcl:server:UnloadPlayer', function()
-    exports.pefcl:unloadPlayer(source)
+	exports.pefcl:unloadPlayer(source)
 end)
 
 RegisterNetEvent('qbx_pefcl:server:SyncMoney', function()
-    local player = exports.qbx_core:GetPlayer(source)
-    SyncMoney(player)
+	local player = exports.qbx_core:GetPlayer(source)
+	SyncMoney(player)
 end)
 
 RegisterNetEvent('qbx_pefcl:server:OnJobUpdate', function(oldJob)
-    local player = exports.qbx_core:GetPlayer(source)
-    UniqueAccounts(player)
-    SyncMoney(player)
+	local player = exports.qbx_core:GetPlayer(source)
+	UniqueAccounts(player)
+	SyncMoney(player)
 end)
 
 local currentResName = GetCurrentResourceName()
 
 AddEventHandler('onServerResourceStart', function(resName)
-    if resName ~= currentResName then return end
-    local players = exports.qbx_core:GetQBPlayers()
-    if not players or players == nil then
-        print('Error loading players, if no players on the server ignore this')
-        return
-    end
-    for _, v in pairs(players) do
-        loadPlayer(v.PlayerData.source, v.PlayerData.citizenid, v.PlayerData.charinfo.firstname .. ' ' .. v.PlayerData.charinfo.lastname)
-        UniqueAccounts(v)
-        SyncMoney(v)
-    end
+	if resName ~= currentResName then return end
+	local players = exports.qbx_core:GetQBPlayers()
+	if not players or players == nil then
+		print('Error loading players, if no players on the server ignore this')
+		return
+	end
+	for _, v in pairs(players) do
+		loadPlayer(v.PlayerData.source, v.PlayerData.citizenid, v.PlayerData.charinfo.firstname .. ' ' .. v.PlayerData.charinfo.lastname)
+		UniqueAccounts(v)
+		SyncMoney(v)
+	end
 end)
