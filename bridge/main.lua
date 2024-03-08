@@ -123,13 +123,13 @@ GetMoney = function(player, moneytype)
     return player.money[moneytype]
 end
 
-SyncMoney = function()
-    local money = exports.pefcl:getDefaultAccountBalance(self.PlayerData.source).data
+SyncMoney = function(player)
+    local money = exports.pefcl:getDefaultAccountBalance(player.PlayerData.source).data
     if money then
-        self.PlayerData.money.bank = money
+        player.PlayerData.money.bank = money
     end
-    if not self.Offline then
-        self.Functions.UpdatePlayerData()
+    if not player.Offline then
+        player.Functions.UpdatePlayerData()
     end
 end
 
