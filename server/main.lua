@@ -233,6 +233,18 @@ AddEventHandler(('__cfx_export_qbx_management_%s'):format('GetAccount'), functio
 	setCB(GetAccount)
 end)
 
+AddEventHandler(('__cfx_export_Renewed-Banking_%s'):format('addAccountMoney'), function(setCB)
+	setCB(AddMoney)
+end)
+
+AddEventHandler(('__cfx_export_Renewed-Banking_%s'):format('removeAccountMoney'), function(setCB)
+	setCB(RemoveMoney)
+end)
+
+AddEventHandler(('__cfx_export_Renewed-Banking_%s'):format('getAccountMoney'), function(setCB)
+	setCB(GetAccount)
+end)
+
 exports('getBank', getBank)
 exports('addCash', addCash)
 exports('removeCash', removeCash)
@@ -256,9 +268,7 @@ AddEventHandler('QBCore:Server:OnMoneyChange', function(playerSrc, moneyType, am
 end)
 
 AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
-	if not player then
-		return
-	end
+	if not player then return end
 	local citizenid = player.PlayerData.citizenid
 	local charInfo = player.PlayerData.charinfo
 	local playerSrc = player.PlayerData.source
@@ -291,7 +301,7 @@ AddEventHandler('onServerResourceStart', function(resName)
 		return
 	end
 	for _, v in pairs(players) do
-		loadPlayer(v.PlayerData.source, v.PlayerData.citizenid, v.PlayerData.charinfo.firstname .. ' ' .. v.PlayerData.charinfo.lastname)
+		loadPlayer(v.PlayerData.source, v.PlayerData.citizenid,	v.PlayerData.charinfo.firstname .. ' ' .. v.PlayerData.charinfo.lastname)
 		UniqueAccounts(v)
 		v.Functions.SyncMoney()
 	end
