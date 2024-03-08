@@ -143,5 +143,4 @@ function Bridge.SyncMoney(player)
     end
 end
 
-
 return Bridge
