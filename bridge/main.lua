@@ -1,14 +1,12 @@
 local logger = require '@qbx_core.modules.logger'
 local config = require '@qbx_core.config.server'
-
 local Bridge = {}
 
-function Bridge.AddMoney(player, moneytype, amount, reason)
+AddMoney = function(player, moneytype, amount, reason)
     reason = reason or 'unknown'
     moneytype = moneytype:lower()
     amount = qbx.math.round(tonumber(amount)) --[[@as number]]
     if amount < 0 then return false end
-
     if moneytype == 'bank' then
         local data = {}
         data.amount = amount
@@ -18,7 +16,6 @@ function Bridge.AddMoney(player, moneytype, amount, reason)
         if not player.money[moneytype] then return false end
         player.money[moneytype] = player.money[moneytype] + amount
     end
-
     if not player.Offline then
         player.Functions.UpdatePlayerData()
         local tags = amount > 100000 and config.logging.role or nil
@@ -38,28 +35,24 @@ function Bridge.AddMoney(player, moneytype, amount, reason)
     return true
 end
 
-function Bridge.RemoveMoney(player, moneytype, amount, reason)
+RemoveMoney = function(player, moneytype, amount, reason)
     reason = reason or 'unknown'
     moneytype = moneytype:lower()
     amount = qbx.math.round(tonumber(amount)) --[[@as number]]
     if amount < 0 then return false end
-
     if not player.money[moneytype] then return false end
-
     for _, mtype in pairs(config.money.dontAllowMinus) do
         if mtype == moneytype then
             if (player.money[moneytype] - amount) < 0 then
                 return false
             end
         end
-
         if moneytype == 'bank' then
             if (exports.pefcl:getDefaultAccountBalance(player.source).data - amount) < 0 then
                 return false
             end
         end
     end
-
     if moneytype == 'bank' then
         local data = {}
         data.amount = amount
@@ -68,7 +61,6 @@ function Bridge.RemoveMoney(player, moneytype, amount, reason)
     else
         player.money[moneytype] = player.money[moneytype] - amount
     end
-
     if not player.Offline then
         player.Functions.UpdatePlayerData()
         local tags = amount > 100000 and config.logging.role or nil
@@ -91,12 +83,11 @@ function Bridge.RemoveMoney(player, moneytype, amount, reason)
     return true
 end
 
-function Bridge.SetMoney(player, moneytype, amount, reason)
+SetMoney = function(player, moneytype, amount, reason)
     reason = reason or 'unknown'
     moneytype = moneytype:lower()
     amount = qbx.math.round(tonumber(amount)) --[[@as number]]
     if amount < 0 then return false end
-
     if moneytype == 'bank' then
         local data = {}
         data.amount = amount
@@ -106,7 +97,6 @@ function Bridge.SetMoney(player, moneytype, amount, reason)
         if not player.money[moneytype] then return false end
         player.money[moneytype] = amount
     end
-
     if not player.Offline then
         player.Functions.UpdatePlayerData()
         logger.log({
@@ -123,7 +113,7 @@ function Bridge.SetMoney(player, moneytype, amount, reason)
     return true
 end
 
-function Bridge.GetMoney(player, moneytype)
+GetMoney = function(player, moneytype)
     if not moneytype then return false end
     moneytype = moneytype:lower()
     if moneytype == 'bank' then
@@ -133,7 +123,7 @@ function Bridge.GetMoney(player, moneytype)
     return player.money[moneytype]
 end
 
-function Bridge.SyncMoney(player)
+SyncMoney = function(player)
     local money = exports.pefcl:getDefaultAccountBalance(player.source).data
     if money then
         player.money.bank = money
