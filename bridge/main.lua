@@ -28,7 +28,7 @@ function Bridge.AddMoney(player, moneytype, amount, reason)
             event = 'AddMoney',
             color = 'lightgreen',
             tags = tags,
-            message = '**' .. GetPlayerName(player.source) .. ' (citizenid: ' .. player.citizenid .. ' | id: ' .. player.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. player.money[moneytype] .. ' reason: ' .. reason,
+            message = ('**%s (citizenid: %s | id: %s)** $%s (%s) added, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
         })
         TriggerClientEvent('qbx_hud:client:OnMoneyChange', player.source, moneytype, amount, false)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "add", reason)
@@ -78,7 +78,7 @@ function Bridge.RemoveMoney(player, moneytype, amount, reason)
             event = 'RemoveMoney',
             color = 'red',
             tags = tags,
-            message = '**' .. GetPlayerName(player.source) .. ' (citizenid: ' .. player.citizenid .. ' | id: ' .. player.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. player.money[moneytype] .. ' reason: ' .. reason,
+            message = ('** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
         })
         TriggerClientEvent('qbx_hud:client:OnMoneyChange', player.source, moneytype, amount, true)
         if moneytype == 'bank' then
@@ -114,7 +114,7 @@ function Bridge.SetMoney(player, moneytype, amount, reason)
             webhook = config.logging.webhook['playermoney'],
             event = 'SetMoney',
             color = 'green',
-            message = '**' .. GetPlayerName(player.source) .. ' (citizenid: ' .. player.citizenid .. ' | id: ' .. player.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. player.money[moneytype] .. ' reason: ' .. reason,
+            message = ('**%s (citizenid: %s | id: %s)** $%s (%s) set, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
         })
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "set", reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', player.source, moneytype, amount, "set", reason)
@@ -131,6 +131,16 @@ function Bridge.GetMoney(player, moneytype)
         return exports.pefcl:getDefaultAccountBalance(player.source).data
     end
     return player.money[moneytype]
+end
+
+function Bridge.SyncMoney(player)
+    local money = exports.pefcl:getDefaultAccountBalance(player.source).data
+    if money then
+        player.money.bank = money
+    end
+    if not player.Offline then
+        player.Functions.UpdatePlayerData()
+    end
 end
 
 
