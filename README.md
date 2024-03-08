@@ -1,7 +1,7 @@
 <h2 align="center">qbx_pefcl</h2>
 This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
 
-## Installation Steps:
+## Installation Steps
 
 1. Download This Repository And Place It In The `resources` Directory.
 2. Add `ensure qbx_pefcl` To Your `server.cfg` Before Pefcl.
@@ -15,6 +15,7 @@ This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
         - `type`: `"qtarget"`
         - `enabled`: `true`
 ## Discord
+
 - `QBOX` [Join Discord](https://discord.gg/qbox)
 - `DevX32` [Join Discord](https://discord.gg/pwZztPt3cs)
 - - - - - - - - - - - -
