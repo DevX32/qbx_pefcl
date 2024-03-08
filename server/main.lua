@@ -1,9 +1,10 @@
+local Config = require 'shared.qbx_pefcl'
 local function addCash(src, amount)
-        exports.ox_inventory:addCash(src,amount)
+	exports.ox_inventory:addCash(src, amount)
 end
 
 local function removeCash(src, amount)
-	exports.ox_inventory:removeCash(src,amount)
+	exports.ox_inventory:removeCash(src, amount)
 end
 
 local function getCash(src)
@@ -26,14 +27,14 @@ local function UniqueAccounts(player)
 		if not exports.pefcl:getUniqueAccount(playerSrc, PlayerJob.name).data then
 			local data = {
 				name = tostring(Config.BusinessAccounts[PlayerJob.name].AccountName),
-				type = 'shared', 
+				type = 'shared',
 				identifier = PlayerJob.name
 			}
 			exports.pefcl:createUniqueAccount(playerSrc, data)
 		end
 	end
 	local accounts = exports.pefcl:getAccounts(playerSrc).data
-	for k,v in pairs(accounts) do
+	for k, v in pairs(accounts) do
 		if Config.BusinessAccounts[v.ownerIdentifier] and v.ownerIdentifier == PlayerJob.name then
 			local role = false
 			if PlayerJob.grade.level >= Config.BusinessAccounts[v.ownerIdentifier].AdminRole then
@@ -70,7 +71,7 @@ local function UniqueAccounts(player)
 						exports.pefcl:addUserToUniqueAccount(playerSrc, data)
 					end
 				end
-			end 
+			end
 		elseif Config.BusinessAccounts[v.ownerIdentifier] and v.ownerIdentifier ~= PlayerJob.name then
 			local data1 = {
 				userIdentifier = citizenid,
@@ -149,27 +150,27 @@ lib.addCommand('bill', {
 end)
 
 local function getCards(src)
-    local retval = {}
-    local cards = exports.ox_inventory:Search(src, 'slots', 'visa')
+	local retval = {}
+	local cards = exports.ox_inventory:Search(src, 'slots', 'visa')
 
-    for _, v in pairs(cards) do
-        retval[#retval + 1] = {
-            id = v.metadata.id,
-            holder = v.metadata.holder,
-            number = v.metadata.number
-        }
-    end
+	for _, v in pairs(cards) do
+		retval[#retval + 1] = {
+			id = v.metadata.id,
+			holder = v.metadata.holder,
+			number = v.metadata.number
+		}
+	end
 
-    return retval
+	return retval
 end
 
 local function giveCard(src, card)
-    exports.ox_inventory:AddItem(src, 'visa', 1, {
-        id = card.id,
-        holder = card.holder,
-        number = card.number,
-        description = ('Card Number: %s'):format(card.number)
-    })
+	exports.ox_inventory:AddItem(src, 'visa', 1, {
+		id = card.id,
+		holder = card.holder,
+		number = card.number,
+		description = ('Card Number: %s'):format(card.number)
+	})
 end
 
 local function getBank(source)
@@ -179,7 +180,7 @@ end
 
 local function GetAccount(account)
 	if exports.pefcl:getUniqueAccount(-1, account).data then
-    	return exports.pefcl:getBankBalanceByIdentifier(-1, account).data
+		return exports.pefcl:getBankBalanceByIdentifier(-1, account).data
 	else
 		return false
 	end
@@ -220,17 +221,24 @@ local function RemoveMoney(account, amount, reason)
 end
 exports('RemoveMoney', RemoveMoney)
 
-AddEventHandler(('__cfx_export_qbx_management_%s'):format('AddMoney'), function(setCB)
-    setCB(AddMoney)
-end)
+local eventHandlers = {
+	{'__cfx_export_qbx_management_AddMoney', AddMoney},
+	{'__cfx_export_qbx_management_RemoveMoney', RemoveMoney},
+	{'__cfx_export_qbx_management_GetAccount', GetAccount},
+	{'__cfx_export_qb_management_AddMoney', AddMoney},
+	{'__cfx_export_qb_management_RemoveMoney', RemoveMoney},
+	{'__cfx_export_qb_management_GetAccount', GetAccount},
+	{'__cfx_export_Renewed-Banking_addAccountMoney', AddMoney},
+	{'__cfx_export_Renewed-Banking_removeAccountMoney', RemoveMoney},
+	{'__cfx_export_Renewed-Banking_getAccountMoney', GetAccount}
+}
 
-AddEventHandler(('__cfx_export_qbx_management_%s'):format('RemoveMoney'), function(setCB)
-    setCB(RemoveMoney)
-end)
-
-AddEventHandler(('__cfx_export_qbx_management_%s'):format('GetAccount'), function(setCB)
-    setCB(GetAccount)
-end)
+for _, eventHandler in ipairs(eventHandlers) do
+	local eventName, callback = table.unpack(eventHandler)
+	AddEventHandler(eventName, function(setCB)
+		setCB(callback)
+	end)
+end
 
 exports('getBank', getBank)
 exports('addCash', addCash)
@@ -242,28 +250,26 @@ exports('getCards', getCards)
 AddEventHandler('QBCore:Server:OnMoneyChange', function(playerSrc, moneyType, amount, action, reason)
 	if moneyType ~= 'bank' then return end
 	if action == 'add' then
-		exports.pefcl:addBankBalance(playerSrc, { amount = amount, message = reason })	
+		exports.pefcl:addBankBalance(playerSrc, { amount = amount, message = reason })
 	end
 
 	if action == 'remove' then
-		exports.pefcl:removeBankBalance(playerSrc, { amount = amount, message = reason })	
+		exports.pefcl:removeBankBalance(playerSrc, { amount = amount, message = reason })
 	end
 
 	if action == 'set' then
-		exports.pefcl:setBankBalance(playerSrc, { amount = amount, message = reason })	
-	end	
+		exports.pefcl:setBankBalance(playerSrc, { amount = amount, message = reason })
+	end
 end)
 
 AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
-	if not player then
-		return
-	end
+	if not player then return end
 	local citizenid = player.PlayerData.citizenid
 	local charInfo = player.PlayerData.charinfo
 	local playerSrc = player.PlayerData.source
 	loadPlayer(playerSrc, citizenid, charInfo.firstname .. ' ' .. charInfo.lastname)
-	UniqueAccounts(player)				
-	player.Functions.SyncMoney()
+	UniqueAccounts(player)
+	SyncMoney(player)
 end)
 
 RegisterNetEvent('qbx_pefcl:server:UnloadPlayer', function()
@@ -272,12 +278,13 @@ end)
 
 RegisterNetEvent('qbx_pefcl:server:SyncMoney', function()
 	local player = exports.qbx_core:GetPlayer(source)
-	player.Functions.SyncMoney()
+	SyncMoney(player)
 end)
 
 RegisterNetEvent('qbx_pefcl:server:OnJobUpdate', function(oldJob)
 	local player = exports.qbx_core:GetPlayer(source)
 	UniqueAccounts(player)
+	SyncMoney(player)
 end)
 
 local currentResName = GetCurrentResourceName()
@@ -292,6 +299,6 @@ AddEventHandler('onServerResourceStart', function(resName)
 	for _, v in pairs(players) do
 		loadPlayer(v.PlayerData.source, v.PlayerData.citizenid, v.PlayerData.charinfo.firstname .. ' ' .. v.PlayerData.charinfo.lastname)
 		UniqueAccounts(v)
-		v.Functions.SyncMoney()
+		SyncMoney(v)
 	end
 end)

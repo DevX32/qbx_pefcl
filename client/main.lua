@@ -1,7 +1,7 @@
 local currentJob = {}
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-        currentJob = QBX.PlayerData.job
+    currentJob = QBX.PlayerData.job
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
