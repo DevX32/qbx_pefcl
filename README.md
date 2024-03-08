@@ -1,6 +1,6 @@
 ![image](https://imgur.com/8WEUFAd.png)
 
-<h2 align="center">qbx_pefcl</h2>
+<h2 align="center">QBX_PEFCL</h2>
 This Compatibility Resource Enables PEFCL To Function Properly With QBOX.
 
 ## Installation Steps
