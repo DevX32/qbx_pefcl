@@ -31,7 +31,6 @@ AddMoney = function(player, moneytype, amount, reason)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "add", reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', player.source, moneytype, amount, "add", reason)
     end
-
     return true
 end
 
@@ -79,7 +78,6 @@ RemoveMoney = function(player, moneytype, amount, reason)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "remove", reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', player.source, moneytype, amount, "remove", reason)
     end
-
     return true
 end
 
@@ -109,7 +107,6 @@ SetMoney = function(player, moneytype, amount, reason)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "set", reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', player.source, moneytype, amount, "set", reason)
     end
-
     return true
 end
 
