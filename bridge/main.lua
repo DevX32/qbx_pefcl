@@ -25,9 +25,9 @@ AddMoney = function(player, moneytype, amount, reason)
             event = 'AddMoney',
             color = 'lightgreen',
             tags = tags,
-            message = ('**%s (citizenid: %s | id: %s)** $%s (%s) added, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
+            message = ('**%s (citizenid: %s | id: %s)** $%s (%s) added, new %s balance: $%s reason: %s'):format(GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, amount, moneytype, moneytype, player.PlayerData.money[moneytype], reason),
         })
-        TriggerClientEvent('qbx_hud:client:OnMoneyChange', player.source, moneytype, amount, false)
+        TriggerClientEvent('hud:client:OnMoneyChange', player.source, moneytype, amount, false)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "add", reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', player.source, moneytype, amount, "add", reason)
     end
@@ -69,9 +69,9 @@ RemoveMoney = function(player, moneytype, amount, reason)
             event = 'RemoveMoney',
             color = 'red',
             tags = tags,
-            message = ('** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
+            message = ('** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: $%s reason: %s'):format(GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, amount, moneytype, moneytype, player.PlayerData.money[moneytype], reason),
         })
-        TriggerClientEvent('qbx_hud:client:OnMoneyChange', player.source, moneytype, amount, true)
+        TriggerClientEvent('hud:client:OnMoneyChange', player.source, moneytype, amount, true)
         if moneytype == 'bank' then
             TriggerClientEvent('qbx_phone:client:RemoveBankMoney', player.source, amount)
         end
@@ -102,7 +102,7 @@ SetMoney = function(player, moneytype, amount, reason)
             webhook = config.logging.webhook['playermoney'],
             event = 'SetMoney',
             color = 'green',
-            message = ('**%s (citizenid: %s | id: %s)** $%s (%s) set, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
+            message = ('**%s (citizenid: %s | id: %s)** $%s (%s) set, new %s balance: $%s reason: %s'):format(GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, amount, moneytype, moneytype, player.PlayerData.money[moneytype], reason),
         })
         TriggerClientEvent('QBCore:Client:OnMoneyChange', player.source, moneytype, amount, "set", reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', player.source, moneytype, amount, "set", reason)
