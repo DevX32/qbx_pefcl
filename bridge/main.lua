@@ -120,7 +120,7 @@ GetMoney = function(player, moneytype)
     return player.money[moneytype]
 end
 
-SyncMoney = function(player)
+SyncMoney = function()
     local money = exports.pefcl:getDefaultAccountBalance(player.PlayerData.source).data
     if money then
         player.PlayerData.money.bank = money
