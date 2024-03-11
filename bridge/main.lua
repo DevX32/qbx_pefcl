@@ -20,7 +20,7 @@ AddMoney = function(player, moneytype, amount, reason)
         player.Functions.UpdatePlayerData()
         local tags = amount > 100000 and config.logging.role or nil
         logger.log({
-            source = 'qbx_core',
+            source = 'qbx_pefcl',
             webhook = config.logging.webhook['playermoney'],
             event = 'AddMoney',
             color = 'lightgreen',
