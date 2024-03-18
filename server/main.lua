@@ -1,17 +1,18 @@
 local Config = require 'shared.qbx_pefcl'
-local function addCash(src, amount)
+
+addCash = function(src, amount)
 	exports.ox_inventory:addCash(src, amount)
 end
 
-local function removeCash(src, amount)
+removeCash = function(src, amount)
 	exports.ox_inventory:removeCash(src, amount)
 end
 
-local function getCash(src)
+getCash = function(src)
 	return exports.ox_inventory:getCash(src) or 0
 end
 
-local function loadPlayer(src, citizenid, name)
+loadPlayer = function(src, citizenid, name)
 	exports.pefcl:loadPlayer(src, {
 		source = src,
 		identifier = citizenid,
@@ -19,7 +20,7 @@ local function loadPlayer(src, citizenid, name)
 	})
 end
 
-local function UniqueAccounts(player)
+UniqueAccounts = function(player)
 	local citizenid = player.PlayerData.citizenid
 	local playerSrc = player.PlayerData.source
 	local PlayerJob = player.PlayerData.job
@@ -143,7 +144,7 @@ lib.addCommand('bill', {
 	TriggerClientEvent('ox_lib:notify', billed.PlayerData.source, 'New Invoice Received')
 end)
 
-local function getCards(src)
+getCards = function(src)
 	local retval = {}
 	local cards = exports.ox_inventory:Search(src, 'slots', 'visa')
 	for _, v in pairs(cards) do
@@ -156,7 +157,7 @@ local function getCards(src)
 	return retval
 end
 
-local function giveCard(src, card)
+giveCard = function(src, card)
 	exports.ox_inventory:AddItem(src, 'visa', 1, {
 		id = card.id,
 		holder = card.holder,
@@ -165,12 +166,12 @@ local function giveCard(src, card)
 	})
 end
 
-local function getBank(source)
+getBank = function(source)
 	local Player = exports.qbx_core:GetPlayer(source)
 	return Player.PlayerData.money.bank or 0
 end
 
-local function GetAccount(account)
+GetAccount = function(account)
 	if exports.pefcl:getUniqueAccount(-1, account).data then
 		return exports.pefcl:getBankBalanceByIdentifier(-1, account).data
 	else
@@ -179,7 +180,7 @@ local function GetAccount(account)
 end
 exports('GetAccount', GetAccount)
 
-local function AddMoney(src, account, amount, reason)
+AddMoney = function(src, account, amount, reason)
 	if exports.pefcl:getUniqueAccount(src, account).data then
 		local data = {
 			identifier = account,
@@ -194,7 +195,7 @@ local function AddMoney(src, account, amount, reason)
 end
 exports('AddMoney', AddMoney)
 
-local function RemoveMoney(account, amount, reason)
+RemoveMoney = function(account, amount, reason)
 	if exports.pefcl:getUniqueAccount(-1, account).data then
 		if tonumber(exports.pefcl:getBankBalanceByIdentifier(-1, account).data) >= amount then
 			local data = {
