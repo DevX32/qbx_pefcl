@@ -239,27 +239,31 @@ exports('getCash', getCash)
 exports('giveCard', giveCard)
 exports('getCards', getCards)
 
-AddEventHandler('QBCore:Server:OnMoneyChange', function(playerSrc, moneyType, amount, action, reason)
-	if moneyType ~= 'bank' then return end
-	if action == 'add' then
-		exports.pefcl:addBankBalance(playerSrc, { amount = amount, message = reason })
-	end
-	if action == 'remove' then
-		exports.pefcl:removeBankBalance(playerSrc, { amount = amount, message = reason })
-	end
-	if action == 'set' then
-		exports.pefcl:setBankBalance(playerSrc, { amount = amount, message = reason })
-	end
-end)
+onMoneyChange = function(playerSrc, moneyType, amount, action, reason)
+    if moneyType == 'bank' then
+        local data = {
+            amount = amount,
+            message = reason
+        }
+        if action == 'add' then
+            exports.pefcl:addBankBalance(playerSrc, data)
+        elseif action == 'remove' then
+            exports.pefcl:removeBankBalance(playerSrc, data)
+        elseif action == 'set' then
+            exports.pefcl:setBankBalance(playerSrc, data)
+        end
+    end
+end
+AddEventHandler('QBCore:Server:OnMoneyChange', onMoneyChange)
 
 AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
 	if not player then return end
 	local citizenid = player.PlayerData.citizenid
-	local charInfo = player.PlayerData.charinfo
+    local charInfo = player.PlayerData.charinfo
 	local playerSrc = player.PlayerData.source
-	loadPlayer(playerSrc, citizenid, charInfo.firstname .. ' ' .. charInfo.lastname)
+    loadPlayer(playerSrc, citizenid, charInfo.firstname .. ' ' .. charInfo.lastname)
 	UniqueAccounts(player)
-	SyncMoney(player)
+    SyncMoney(player)
 end)
 
 RegisterNetEvent('qbx_pefcl:server:UnloadPlayer', function()
