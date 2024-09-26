@@ -218,9 +218,6 @@ local eventHandlers = {
 	{'__cfx_export_qbx_management_AddMoney', AddMoney},
 	{'__cfx_export_qbx_management_RemoveMoney', RemoveMoney},
 	{'__cfx_export_qbx_management_GetAccount', GetAccount},
-	{'__cfx_export_qb_management_AddMoney', AddMoney},
-	{'__cfx_export_qb_management_RemoveMoney', RemoveMoney},
-	{'__cfx_export_qb_management_GetAccount', GetAccount},
 	{'__cfx_export_Renewed-Banking_addAccountMoney', AddMoney},
 	{'__cfx_export_Renewed-Banking_removeAccountMoney', RemoveMoney},
 	{'__cfx_export_Renewed-Banking_getAccountMoney', GetAccount}
